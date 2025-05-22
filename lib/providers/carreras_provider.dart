@@ -5,12 +5,15 @@ import 'package:flutter/scheduler.dart';
 class CarrerasProvider extends ChangeNotifier {
   List<Map<String, dynamic>> _carreras = [];
   List<Map<String, dynamic>> _solicitudes = [];
+  List<Map<String, dynamic>> _solicitudesAcademicas = [];
   List<Map<String, dynamic>> solicitudesFiltradas = [];
+  List<Map<String, dynamic>> solicitudesFiltradasAcademicas = [];
   String? _carreraSeleccionada;
 
   List<Map<String, dynamic>> get carreras => _carreras;
   List<Map<String, dynamic>> get solicitudes => _solicitudes;
-
+  List<Map<String, dynamic>> get solicitudesAcademicas =>
+      _solicitudesAcademicas;
   String? get carreraSeleccionada => _carreraSeleccionada;
 
   bool? mostrarRevisadas;
@@ -57,8 +60,35 @@ class CarrerasProvider extends ChangeNotifier {
     notifyListeners(); // Si estás usando Provider, notificar cambios
   }
 
+  Future<void> cargarSolicitudesAcademicas(String idCarrera) async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('Carreras')
+        .doc(idCarrera)
+        .collection('solicitudes')
+        .where('revisada', isEqualTo: true)
+        .get();
+
+    _solicitudesAcademicas = await Future.wait(snapshot.docs.map((doc) async {
+      final d = await FirebaseFirestore.instance
+          .collection('usuarios')
+          .doc(doc['usuarioId'])
+          .get();
+
+      return {
+        'id': doc.id,
+        'usuario': d.data() ?? {}, // Asegurar que no sea null
+        'pdf': doc['pdfUrl'],
+        'fecha': doc['fecha'],
+        'revisionAcademica': doc['revisionAcademica']
+      };
+    }));
+
+    solicitudesFiltradasAcademicas = _solicitudesAcademicas;
+
+    notifyListeners(); // Si estás usando Provider, notificar cambios
+  }
+
   void filtrarSolicitudes({String? termino}) {
-   
     terminoBusqueda = termino ?? '';
 
     solicitudesFiltradas = _solicitudes.where((soli) {
@@ -103,6 +133,31 @@ class CarrerasProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+    void modificarStatusDeSolicitudAcademica(
+      {required String solicitudId,
+      required String carreraId,
+      required bool valor}) async {
+    final solicitudRef = FirebaseFirestore.instance
+        .collection('Carreras')
+        .doc(carreraId)
+        .collection('solicitudes')
+        .doc(solicitudId);
+
+    final solicitud = await solicitudRef.get();
+
+    if (!solicitud.exists) {
+      return;
+    }
+
+    await solicitudRef.update({
+      'revisionAcademica': valor,
+    });
+
+    await cargarSolicitudesAcademicas(carreraId);
+
+    notifyListeners();
+  }
+
   Future<Map<String, dynamic>?> obtenerCarreraPorId(String carreraId) async {
     try {
       DocumentSnapshot doc = await FirebaseFirestore.instance
@@ -129,7 +184,8 @@ class CarrerasProvider extends ChangeNotifier {
       'usuarioId': usuarioId,
       'fecha': FieldValue.serverTimestamp(),
       'pdfUrl': pdfUrl,
-      'revisada': false
+      'revisada': false , 
+      'revisionAcademica' : false
     });
 
     if (context.mounted) {

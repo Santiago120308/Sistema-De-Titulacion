@@ -335,7 +335,7 @@ class RegisterScreen extends StatelessWidget {
 
                             if(response == null){
                               if(context.mounted){
-                                NavigationServiceGo.popAndPushTo(context,'/');
+                                NavigationServiceGo.navigateTo(context,'/');
                               }
                             }
                             

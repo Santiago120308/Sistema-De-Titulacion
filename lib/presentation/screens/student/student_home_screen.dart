@@ -80,7 +80,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                       foregroundColor: Colors.white,
                     ),
                     onPressed: () async {
-                      // TODO: CERRAR SESION
+                     
                       await authService.logout();
                       if (context.mounted) {
                         NavigationServiceGo.popAndPushTo(context, '/');
@@ -304,6 +304,8 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                       data['user'] = user;
                       data['carrera'] = carrera;
                       data['metodoTitulacion'] = camposProvider.formaTitulacion;
+                      await authService.almacenarDatosDeTitulacion(data['user']['uid'] , data['metodoTitulacion'] , data['proyecto']);
+                     
                       if (opcion != null) {
                         data['opcion'] = opcion;
                       }
@@ -346,7 +348,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Title cargar documento
-          labelField("Cargar PDF a Vinculación", 18, FontWeight.bold,
+          labelField("Cargar PDF a Division De Estudios Profesionales", 18, FontWeight.bold,
               Colors.black, 0, 20),
 
           const StudentFileUploader(),

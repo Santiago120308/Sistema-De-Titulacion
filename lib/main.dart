@@ -8,14 +8,15 @@ import 'package:titulacion_app/helpers/generatedPdfs/provider/solicitud_provider
 import 'package:titulacion_app/providers/auth/auth_provider.dart';
 import 'package:titulacion_app/providers/carreras_provider.dart';
 import 'package:titulacion_app/providers/login_provider.dart';
-import 'package:titulacion_app/providers/mensaje_provider.dart';
 import 'package:titulacion_app/providers/pdf_provider.dart';
 import 'package:titulacion_app/providers/periodos_providers.dart';
 import 'package:titulacion_app/providers/register_provider.dart';
+import 'package:titulacion_app/providers/reporte_academico_provider.dart';
 import 'package:titulacion_app/providers/side_menu_provider.dart';
 import 'package:titulacion_app/routes/app_router.dart';
 
 void main() async {
+  
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
@@ -59,7 +60,8 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PdfProvider()) , 
         ChangeNotifierProvider(create: (_) => DatosPdfProvider()) ,
         ChangeNotifierProvider(create: (_) => SideMeuProvider() ) ,
-        ChangeNotifierProvider(create: (_) => SolicitudProvider())
+        ChangeNotifierProvider(create: (_) => SolicitudProvider()) , 
+        ChangeNotifierProvider(create: (_) => ReporteAcademicoProvider())
       ],
       child: const MyApp(),
     );

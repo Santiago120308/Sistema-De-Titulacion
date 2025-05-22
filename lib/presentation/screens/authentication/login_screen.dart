@@ -255,13 +255,16 @@ class LoginScreen extends StatelessWidget {
                           loginProvider.correo,
                           loginProvider.password,
                           context);
-
+                         
                       if (auth == null) {
                        if(context.mounted){
+                       
                          if (auhtService.role == 'user') {
                           NavigationServiceGo.navigateTo(context , '/estudiante');
                         } else if (auhtService.role == 'division') {
                           NavigationServiceGo.navigateTo(context , AppRouter.division);
+                        } else if(auhtService.role == 'academico'){
+                          NavigationServiceGo.navigateTo(context , AppRouter.academico);
                         }
                        }
                       }

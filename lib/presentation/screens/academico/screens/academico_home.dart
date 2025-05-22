@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:titulacion_app/providers/auth/auth_provider.dart';
 import 'package:titulacion_app/services/navigation_service_go.dart';
 
-class DivisionHomeScreen extends StatelessWidget {
-  const DivisionHomeScreen({super.key});
+class AcademicoHomeScreen extends StatelessWidget {
+  const AcademicoHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class DivisionHomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-      const Center(child: Text('DIVISION'),)
+      const Center(child: Text('DEPARTAMENTO ACADEMICO'),)
     ]);
   }
 }

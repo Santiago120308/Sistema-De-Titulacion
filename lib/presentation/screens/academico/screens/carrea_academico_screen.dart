@@ -4,19 +4,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:titulacion_app/providers/auth/auth_provider.dart';
 import 'package:titulacion_app/providers/carreras_provider.dart';
+import 'package:titulacion_app/providers/reporte_academico_provider.dart';
+import 'package:titulacion_app/routes/app_router.dart';
 import 'package:titulacion_app/services/navigation_service_go.dart';
 //import 'package:url_launcher/url_launcher.dart';
 
-class CarreraScreen extends StatelessWidget {
+class CarreraAcademicoScreen extends StatelessWidget {
   final String text;
-  const CarreraScreen({super.key, required this.text});
+  const CarreraAcademicoScreen({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
     final carrerasProvider = Provider.of<CarrerasProvider>(context);
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return carrerasProvider.solicitudes.isEmpty
+    return carrerasProvider.solicitudesAcademicas.isEmpty
         ? Center(
             child: Text('SIN SOLICITUDES PARA ESTA CARRERA',
                 style: GoogleFonts.kanit(
@@ -40,10 +42,10 @@ class CarreraScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: ListView.builder(
-                      itemCount: carrerasProvider.solicitudesFiltradas.length,
+                      itemCount: carrerasProvider.solicitudesFiltradasAcademicas.length,
                       itemBuilder: (context, index) {
                         final soli =
-                            carrerasProvider.solicitudesFiltradas[index];
+                            carrerasProvider.solicitudesFiltradasAcademicas[index];
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
@@ -128,6 +130,7 @@ class CarreraScreen extends StatelessWidget {
   List<Widget> buttons(BuildContext context, Map<String, dynamic> soli,
       {double btn1 = 60, double btn2 = 110}) {
     final carrerasProvider = Provider.of<CarrerasProvider>(context);
+    final datosReporteAcademicoProvider = Provider.of<ReporteAcademicoProvider>(context);
 
     return [
       SizedBox(
@@ -157,20 +160,20 @@ class CarreraScreen extends StatelessWidget {
         height: 35,
         child: TextButton(
             onPressed: () {
-              carrerasProvider.modificarStatusDeSolicitud(
+              carrerasProvider.modificarStatusDeSolicitudAcademica(
                   carreraId: soli['usuario']['carreraId'],
                   solicitudId: soli['id'],
-                  valor: !soli['revisada']);
+                  valor: !soli['revisionAcademica']);
             },
             style: OutlinedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     side: BorderSide.none,
                     borderRadius: BorderRadius.circular(5)),
-                backgroundColor: soli['revisada']
+                backgroundColor: soli['revisionAcademica']
                     ? const Color(0xFF696773)
                     : const Color.fromARGB(255, 149, 26, 15)),
             child: Text(
-              soli['revisada'] ? "Revisada" : "No Revisada",
+              soli['revisionAcademica'] ? "Revisada" : "No Revisada",
               style: const TextStyle(color: Colors.white),
             )),
       ),
@@ -201,6 +204,45 @@ class CarreraScreen extends StatelessWidget {
             )),
       ),
 
+
+       SizedBox(
+        width: 10,
+        height: (btn1 != 60) ? 5 : 0,
+      ),
+
+            SizedBox(
+        width: 140,
+        height: 35,
+        child: TextButton(
+            onPressed: () async {
+              //TODO : ENVIARLO A LA PAGINA PARA GENERAR EL REPORTE
+              print(soli);
+
+              Map<String, dynamic> carrera = await carrerasProvider
+                              .obtenerCarreraPorId(soli['usuario']['carreraId'])
+                          as Map<String, dynamic>;
+                     
+              datosReporteAcademicoProvider.carrera = carrera['nombre'];
+              datosReporteAcademicoProvider.formaTitulacion = soli['usuario']['formaTitulacion'];
+              datosReporteAcademicoProvider.nombre = '${soli['usuario']['nombre']} ${soli['usuario']['apellidos']}';
+              datosReporteAcademicoProvider.numeroControl = soli['usuario']['num_control'];
+              datosReporteAcademicoProvider.nombreProyecto = soli['usuario']['nombreProyecto'];
+
+              if(context.mounted){
+                NavigationServiceGo.navigatePush(context, AppRouter.academicoReporte);
+              }
+              
+            },
+            style: OutlinedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    side: BorderSide.none,
+                    borderRadius: BorderRadius.circular(5)),
+                backgroundColor: const Color.fromARGB(255, 149, 26, 15)),
+            child: const Text(
+              "Generar Reporte",
+              style: TextStyle(color: Colors.white),
+            )),
+      ),
       
     ];
   }
@@ -242,7 +284,7 @@ class CarreraScreen extends StatelessWidget {
                             icon: const Icon(Icons.send),
                             onPressed: () async {
                               if (authProvider.mensaje.isNotEmpty) {
-                                await authProvider.sendMessage(soli, context , 'mensajesDivision');
+                                await authProvider.sendMessage(soli, context , 'mensajesAcademicos');
                                 if(context.mounted){
                                   Navigator.of(context).pop();
                                 }

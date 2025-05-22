@@ -169,14 +169,14 @@ class AuthService extends ChangeNotifier {
   }
 
   Future<void> sendMessage(
-      Map<String, dynamic> soli, BuildContext context) async {
+      Map<String, dynamic> soli, BuildContext context , String departamento) async {
     try {
       if (mensaje.isNotEmpty) {
         await FirebaseFirestore.instance
             .collection('usuarios')
             .doc(soli['usuario']['uid'])
             .update({
-          'mensajesDivision': FieldValue.arrayUnion([mensaje])
+          departamento: FieldValue.arrayUnion([mensaje])
         });
       }
 
@@ -253,6 +253,16 @@ class AuthService extends ChangeNotifier {
   }
 }
 
+  Future<void> almacenarDatosDeTitulacion(String idUsuario , String formaTitulacion , String nombreProyecto) async {
+    await FirebaseFirestore.instance
+  .collection('usuarios')
+  .doc(idUsuario) // aquí pones el ID del usuario
+  .update({
+    'formaTitulacion': formaTitulacion,
+    'nombreProyecto': nombreProyecto,
+  });
+
+  }
 
   Future<void> logout() async {
     autenticando = Auth.pending;

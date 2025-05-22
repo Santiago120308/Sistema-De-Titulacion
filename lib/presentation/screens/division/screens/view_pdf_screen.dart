@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:titulacion_app/routes/app_router.dart';
@@ -44,7 +45,9 @@ class _ViewPdfScreenState extends State<ViewPdfScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            NavigationServiceGo.navigateTo(context, AppRouter.division); // Regresa a la pantalla anterior
+            //NavigationServiceGo.navigateTo(context, AppRouter.division); // Regresa a la pantalla anterior
+            GoRouter.of(context).pop();
+
           },
         ),
       ),

@@ -8,6 +8,12 @@ class NavigationServiceGo {
     context.go(name);
   }
 
+    static void navigatePush(BuildContext context, String name) {
+    // return context.pushNamedAndRemoveUntil(name, (route) => false);
+    // Navigator.of(context).popUntil((route) => false);
+    context.push(name);
+  }
+
   static void popAndPushTo(BuildContext context, String route) {
       // Esto elimina todas las rutas previas
       Future.delayed(Duration.zero , (){
