@@ -8,8 +8,6 @@ class AuthService extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  //List<String> mensajesDelUsuario = [];
-
   User? _user;
   String? _role;
   String? _nombre;
@@ -27,14 +25,14 @@ class AuthService extends ChangeNotifier {
       if (user != null) {
         _user = user;
         await _loadUserRole(user.uid);
-        autenticando = Auth.autenticated; // Cambia el estado
+        autenticando = Auth.autenticated; 
       } else {
         _user = null;
         _role = null;
         autenticando = Auth.noAuth;
       }
 
-      notifyListeners(); // Asegúrate de llamar notifyListeners solo una vez
+      notifyListeners(); 
     });
   }
 
@@ -50,10 +48,10 @@ class AuthService extends ChangeNotifier {
           await _db.collection('usuarios').doc(uid).get();
 
       if (userDoc.exists) {
-        // Devuelve toda la información del usuario como un mapa
+        
         return userDoc.data() as Map<String, dynamic>?;
       } else {
-        return null; // Si no existe el documento, retorna null
+        return null; 
       }
     } catch (e) {
       return null;
@@ -73,13 +71,13 @@ class AuthService extends ChangeNotifier {
 
         String uid = _user!.uid;
 
-        // Obtén el documento del usuario desde Firestore
+        
         DocumentSnapshot userDoc = await FirebaseFirestore.instance
             .collection('usuarios')
             .doc(uid)
             .get();
 
-        // Verifica si el documento existe
+        
         if (userDoc.exists) {
           // Accede al rol del usuario
           String rol =
@@ -256,7 +254,7 @@ class AuthService extends ChangeNotifier {
   Future<void> almacenarDatosDeTitulacion(String idUsuario , String formaTitulacion , String nombreProyecto) async {
     await FirebaseFirestore.instance
   .collection('usuarios')
-  .doc(idUsuario) // aquí pones el ID del usuario
+  .doc(idUsuario)
   .update({
     'formaTitulacion': formaTitulacion,
     'nombreProyecto': nombreProyecto,

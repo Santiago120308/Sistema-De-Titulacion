@@ -11,20 +11,16 @@ class PdfProvider extends ChangeNotifier {
 
   Future<String?> subirSolicitud(String numeroControl) async {
     try {
-      // Generar nombre del archivo
-      //String fileName = "solicitud_titulacion_${numeroControl}_${DateTime.now().millisecondsSinceEpoch}.pdf";
 
       // Referencia en Storage (se organiza en carpetas por nombreCarrera)
       Reference ref = _storage.ref().child('$numeroControl/solicitud.pdf');
 
       try {
-        await ref.getDownloadURL(); // Intenta obtener la URL
-
-        // Si llega aquí, el archivo existe → lo eliminamos
+        await ref.getDownloadURL(); 
         await ref.delete();
         print("Archivo anterior eliminado.");
       } catch (e) {
-        // Si entra aquí, es porque el archivo no existe (lo ignoramos)
+       
         print("No había archivo previo: $e");
       }
 

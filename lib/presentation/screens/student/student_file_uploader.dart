@@ -22,7 +22,7 @@ class _StudentFileUploaderState extends State<StudentFileUploader> {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf'], // Solo archivos PDF
-      withData: true, // ✅ Asegura que los bytes se carguen correctamente
+      withData: true, 
     );
 
     if (result != null && result.files.single.bytes != null) {
@@ -30,7 +30,7 @@ class _StudentFileUploaderState extends State<StudentFileUploader> {
         fileName = result.files.single.name;
         fileError = null;
         pickedFile =
-            result.files.single.bytes; // ✅ Obtiene los bytes correctamente
+            result.files.single.bytes; 
       });
     } else {
       setState(() {
@@ -44,7 +44,7 @@ class _StudentFileUploaderState extends State<StudentFileUploader> {
     final pdfProvider = Provider.of<PdfProvider>(context, listen: false);
 
     if (pickedFile != null) {
-      pdfProvider.pdfFile = pickedFile; // ✅ Almacena el archivo en el provider
+      pdfProvider.pdfFile = pickedFile; 
     }
 
     return SizedBox(

@@ -83,11 +83,7 @@ class NavBar extends StatelessWidget {
               ),
             ),
 
-          // const Spacer() ,
-          // const NotificationIndicator() ,
-          // const SizedBox(width: 5) ,
-          // const NavBarAvatar() ,
-          // const SizedBox(width: 5) ,
+
         ],
       ),
     );

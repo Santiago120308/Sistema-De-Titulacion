@@ -3,14 +3,10 @@ import 'package:go_router/go_router.dart';
 
 class NavigationServiceGo {
   static void navigateTo(BuildContext context, String name) {
-    // return context.pushNamedAndRemoveUntil(name, (route) => false);
-    // Navigator.of(context).popUntil((route) => false);
     context.go(name);
   }
 
     static void navigatePush(BuildContext context, String name) {
-    // return context.pushNamedAndRemoveUntil(name, (route) => false);
-    // Navigator.of(context).popUntil((route) => false);
     context.push(name);
   }
 
@@ -21,6 +17,6 @@ class NavigationServiceGo {
          context.go(route);
        }
       });
- // Ahora navegas a la nueva ruta
+
   }
 }

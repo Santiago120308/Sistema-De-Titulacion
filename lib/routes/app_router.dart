@@ -68,15 +68,6 @@ class AppRouter {
         },
       ),
 
-      // Rutas de autenticación (login/register)
-      //  GoRoute(
-      //    path: login,
-      //    builder: (context, state) => const HomeScreen(),
-      //  ),
-      //  GoRoute(
-      //    path: register,
-      //    builder: (context, state) => const HomeScreen(),
-      //  ),
 
       // Rutas de estudiante
 
@@ -373,7 +364,7 @@ class AppRouter {
           pageBuilder: (context, state) {
             final authService = Provider.of<AuthService>(context);
             final numControl = state.pathParameters['numControl'];
-            print(numControl);
+            
 
             if (authService.autenticando == Auth.pending) {
               return const NoTransitionPage(child: CircularIndicator());
@@ -721,13 +712,13 @@ class AppRouter {
   // Función para obtener la ruta inicial desde sessionStorage
   static String _getInitialRoute() {
     final savedRoute = html.window
-        .sessionStorage['lastRoute']; // Verificar si hay una ruta guardada
+        .sessionStorage['lastRoute']; 
 
-    return savedRoute ?? '/'; // Si no hay ruta guardada, se usa la raíz ("/")
+    return savedRoute ?? '/';
   }
 
 // Función para guardar la ruta actual en sessionStorage
   static void saveRouteInSessionStorage(String route) {
-    html.window.sessionStorage['lastRoute'] = route; // Almacenar la ruta actual
+    html.window.sessionStorage['lastRoute'] = route; 
   }
 }

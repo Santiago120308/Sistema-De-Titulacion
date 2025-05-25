@@ -48,7 +48,7 @@ class CarrerasProvider extends ChangeNotifier {
 
       return {
         'id': doc.id,
-        'usuario': d.data() ?? {}, // Asegurar que no sea null
+        'usuario': d.data() ?? {}, 
         'pdf': doc['pdfUrl'],
         'fecha': doc['fecha'],
         'revisada': doc['revisada']
@@ -57,7 +57,7 @@ class CarrerasProvider extends ChangeNotifier {
 
     solicitudesFiltradas = _solicitudes;
 
-    notifyListeners(); // Si estás usando Provider, notificar cambios
+    notifyListeners(); 
   }
 
   Future<void> cargarSolicitudesAcademicas(String idCarrera) async {
@@ -85,7 +85,7 @@ class CarrerasProvider extends ChangeNotifier {
 
     solicitudesFiltradasAcademicas = _solicitudesAcademicas;
 
-    notifyListeners(); // Si estás usando Provider, notificar cambios
+    notifyListeners(); 
   }
 
   void filtrarSolicitudes({String? termino}) {

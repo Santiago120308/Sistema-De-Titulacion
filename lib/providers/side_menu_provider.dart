@@ -12,7 +12,7 @@ class SideMeuProvider extends ChangeNotifier{
   }
 
 void setCurrentPageUrl(String routeName) {
-  if (_currentPage == routeName) return; // 🔹 Evita notificaciones innecesarias
+  if (_currentPage == routeName) return; 
   _currentPage = routeName;
      SchedulerBinding.instance.addPostFrameCallback((_) {
       notifyListeners();

@@ -15,7 +15,6 @@ class GeneratedPdfOpcionXI2017 extends PdfGenerator {
       String formattedDate =
           "${now.day} de ${NombreMes.mesEnTexto(now.month)} del ${now.year}";
 
-      //String fecha =  obtenerFechaActual();
 
       pdf.addPage(
         pw.Page(

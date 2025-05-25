@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -174,20 +174,15 @@ class CarreraScreen extends StatelessWidget {
               style: const TextStyle(color: Colors.white),
             )),
       ),
-
-      //TODO : HACER RESPONSIVO EL NUEVO BOTON Y AGREGARLE ESTILOS
       SizedBox(
         width: 10,
         height: (btn1 != 60) ? 5 : 0,
       ),
-
       SizedBox(
         width: 140,
         height: 35,
         child: TextButton(
             onPressed: () async {
-              //TODO : MOSTRAR EL MODAL PARA ENVIAR MENSAJE
-
               await mostrarDialogo(context, soli);
             },
             style: OutlinedButton.styleFrom(
@@ -200,8 +195,6 @@ class CarreraScreen extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             )),
       ),
-
-      
     ];
   }
 
@@ -234,7 +227,6 @@ class CarreraScreen extends StatelessWidget {
                         onChanged: (value) {
                           authProvider.mensaje = value;
                         },
-                        
                         decoration: InputDecoration(
                           hintText: 'Escribe tu mensaje aquí...',
                           border: const OutlineInputBorder(),
@@ -242,8 +234,9 @@ class CarreraScreen extends StatelessWidget {
                             icon: const Icon(Icons.send),
                             onPressed: () async {
                               if (authProvider.mensaje.isNotEmpty) {
-                                await authProvider.sendMessage(soli, context , 'mensajesDivision');
-                                if(context.mounted){
+                                await authProvider.sendMessage(
+                                    soli, context, 'mensajesDivision');
+                                if (context.mounted) {
                                   Navigator.of(context).pop();
                                 }
                                 authProvider.setearMensajeVacio(false);
@@ -270,7 +263,7 @@ class CarreraScreen extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                     authProvider.setearMensajeVacio(false);
+                    authProvider.setearMensajeVacio(false);
                   },
                   child: const Text('Cerrar'),
                 ),
